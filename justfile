@@ -20,7 +20,7 @@ fmt:
 	julia -e 'using JuliaFormatter; format(".")'
 
 docs:
-	julia --project=docs -e 'using Pkg; Pkg.instantiate(); include("docs/make.jl")'
+	julia -e 'using Pkg; Pkg.instantiate(); include("docs/make.jl")'
 
 bench:
 	julia -e 'using Pkg; Pkg.activate("."); using PkgBenchmark; benchmarkpkg(".")'
@@ -35,4 +35,4 @@ ci:
 	julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
 
 dev:
-	just init && just test && just docs && just fmt && just bench
+	just init && just test && just fmt && just bench

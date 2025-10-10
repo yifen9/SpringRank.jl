@@ -13,6 +13,8 @@ RUN mkdir -p /opt/julia-depot && chmod -R 777 /opt/julia-depot
 
 WORKDIR /workspace
 
+RUN git config --system --add safe.directory /workspace
+
 COPY Project.toml Manifest.toml* ./
 
 RUN --mount=type=cache,target=/opt/julia-depot julia -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
