@@ -35,4 +35,4 @@ ci:
 	julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
 
 dev:
-	just init && just test && just fmt && just bench
+	just init && just test && just fmt
