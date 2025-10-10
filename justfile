@@ -1,13 +1,13 @@
-add-pkg NAME:
-	julia -e 'using Pkg; Pkg.add(ENV["NAME"])'
-
-rm-pkg NAME:
-	julia -e 'using Pkg; Pkg.rm(ENV["NAME"])'
-
 up:
 	julia -e 'using Pkg; Pkg.update()'
 
-instantiate:
+add NAME:
+	julia -e 'using Pkg; Pkg.add("{{NAME}}")'
+
+rm NAME:
+	julia -e 'using Pkg; Pkg.rm("{{NAME}}")'
+
+init:
 	julia -e 'using Pkg; Pkg.instantiate()'
 
 resolve:
@@ -16,7 +16,7 @@ resolve:
 test:
 	julia -e 'using Pkg; Pkg.test()'
 
-format:
+fmt:
 	julia -e 'using JuliaFormatter; format(".")'
 
 docs:
