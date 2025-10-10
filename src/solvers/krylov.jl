@@ -11,30 +11,54 @@ function springrank_krylov(
     restart::Integer = 0,
     Pl = nothing,
     Pr = nothing,
+    krylov::Symbol = :gmres,
 )
     x = zeros(eltype(b), size(L, 1))
 
-    common = (;
-        reltol = reltol,
-        abstol = abstol,
-        maxiter = maxiter,
-        log = false,
-        initially_zero = true,
-        verbose = false,
-    )
-    with_restart = restart > 0 ? (; restart = restart) : NamedTuple()
+    if krylov === :gmres
+        kwargs = (
+            reltol = reltol,
+            abstol = abstol,
+            maxiter = maxiter,
+            log = false,
+            initially_zero = true,
+            verbose = false,
+        )
+        kw = Pl === nothing ? kwargs : merge(kwargs, (; Pl = Pl))
+        kw = Pr === nothing ? kw : merge(kw, (; Pr = Pr))
+        kw = restart > 0 ? merge(kw, (; restart = restart)) : kw
+        gmres!(x, L, b; kw...)
 
-    preconds = NamedTuple()
-    if Pl !== nothing
-        preconds = (; preconds..., Pl = Pl)
+    elseif krylov === :cg
+        kwargs = (
+            reltol = reltol,
+            abstol = abstol,
+            maxiter = maxiter,
+            log = false,
+            initially_zero = true,
+            verbose = false,
+        )
+        kw = Pl === nothing ? kwargs : merge(kwargs, (; Pl = Pl))
+        kw = Pr === nothing ? kw : merge(kw, (; Pr = Pr))
+        cg!(x, L, b; kw...)
+
+    elseif krylov === :bicgstabl
+        l = 1
+        mv = max(2 * (l + 1) * maxiter, 1)
+        kwargs = (
+            reltol = reltol,
+            abstol = abstol,
+            max_mv_products = mv,
+            log = false,
+            verbose = false,
+            initial_zero = true,
+        )
+        kw = Pl === nothing ? kwargs : merge(kwargs, (; Pl = Pl))
+        bicgstabl!(x, L, b, l; kw...)
+
+    else
+        error("unsupported krylov method")
     end
-    if Pr !== nothing
-        preconds = (; preconds..., Pr = Pr)
-    end
-
-    kwargs = (; common..., with_restart..., preconds...)
-
-    gmres!(x, L, b; kwargs...)
 
     μ = sum(x) / length(x)
     return x .- μ

@@ -35,6 +35,7 @@ function springrank(
     tol::Union{Nothing,Real} = nothing,
     Pl = nothing,
     Pr = nothing,
+    krylov::Symbol = :gmres,
 )
     L, b = CoreModel.build_system_from_adjacency(A; λ = λ)
     rt = tol === nothing ? reltol : float(tol)
@@ -51,9 +52,11 @@ function springrank(
             restart = restart,
             Pl = Pl,
             Pr = Pr,
+            krylov = krylov,
         )
     end
 end
+
 
 function springrank(
     g::Graphs.AbstractGraph;
