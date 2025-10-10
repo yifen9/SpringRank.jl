@@ -9,34 +9,33 @@ function springrank_krylov(
     abstol::Real = 0.0,
     maxiter::Integer = 10000,
     restart::Integer = 0,
+    Pl = nothing,
+    Pr = nothing,
 )
     x = zeros(eltype(b), size(L, 1))
-    if restart > 0
-        gmres!(
-            x,
-            L,
-            b;
-            reltol = reltol,
-            abstol = abstol,
-            maxiter = maxiter,
-            restart = restart,
-            log = false,
-            initially_zero = true,
-            verbose = false,
-        )
-    else
-        gmres!(
-            x,
-            L,
-            b;
-            reltol = reltol,
-            abstol = abstol,
-            maxiter = maxiter,
-            log = false,
-            initially_zero = true,
-            verbose = false,
-        )
+
+    common = (;
+        reltol = reltol,
+        abstol = abstol,
+        maxiter = maxiter,
+        log = false,
+        initially_zero = true,
+        verbose = false,
+    )
+    with_restart = restart > 0 ? (; restart = restart) : NamedTuple()
+
+    preconds = NamedTuple()
+    if Pl !== nothing
+        preconds = (; preconds..., Pl = Pl)
     end
+    if Pr !== nothing
+        preconds = (; preconds..., Pr = Pr)
+    end
+
+    kwargs = (; common..., with_restart..., preconds...)
+
+    gmres!(x, L, b; kwargs...)
+
     μ = sum(x) / length(x)
     return x .- μ
 end

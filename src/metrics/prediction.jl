@@ -66,6 +66,13 @@ function evaluate_prediction(r, edges_test)
     return (acc = res.acc, auc = auc)
 end
 
-export predict_direction, evaluate_prediction, auc_from_scores
+function predict_proba(r::AbstractVector, edges; β::Real = 1.0)
+    t, s = _scores_from_edges(r, edges)
+    p = 1.0 ./ (1.0 .+ exp.(-β .* s))
+    return (proba = p, y_true = t, y_score = s)
+end
+
+
+export predict_direction, evaluate_prediction, auc_from_scores, predict_proba
 
 end
