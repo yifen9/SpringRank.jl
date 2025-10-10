@@ -14,7 +14,7 @@ services:
       bash -c "
         julia -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()' &&
         just --version &&
-        just instantiate &&
+        just init &&
         exec sleep infinity
       "
 volumes:
