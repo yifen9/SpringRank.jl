@@ -1,6 +1,6 @@
 services:
   SpringRank.jl:
-    image: ghcr.io/yifen9/SpringRank.jl
+    image: ghcr.io/yifen9/springrank.jl
     container_name: SpringRank.jl
     working_dir: /workspace
     environment:
@@ -13,6 +13,8 @@ services:
     command: >
       bash -c "
         julia -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()' &&
+        just --version &&
+        just instantiate &&
         exec sleep infinity
       "
 volumes:
