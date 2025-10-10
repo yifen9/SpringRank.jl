@@ -2,10 +2,12 @@ module DirectSolve
 
 using LinearSolve, SparseArrays
 
-function springrank_direct(A::SparseArrays.SparseMatrixCSC, b::AbstractVector; kwargs...)
-    prob = LinearProblem(A, b)
+function springrank_direct(L::SparseArrays.SparseMatrixCSC, b::AbstractVector)
+    prob = LinearProblem(L, b)
     sol = solve(prob)
-    return sol.u
+    x = sol.u
+    μ = sum(x) / length(x)
+    return x .- μ
 end
 
 end
