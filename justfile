@@ -32,7 +32,7 @@ qa-jet:
 	julia -e 'using Pkg; Pkg.activate("."); using JET; JET.test_package("SpringRank")'
 
 ci:
-	julia -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+	julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); Pkg.test()'
 	just data-run
 	just data-compare
 
