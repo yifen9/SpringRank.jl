@@ -1,9 +1,6 @@
 services:
   SpringRank.jl:
     image: ghcr.io/yifen9/springrank.jl
-    build:
-      context: ..
-      dockerfile: Dockerfile
     container_name: SpringRank.jl
     working_dir: /workspace
     environment:

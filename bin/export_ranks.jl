@@ -1,4 +1,3 @@
-#!/usr/bin/env julia
 using DelimitedFiles, SparseArrays, Statistics
 using SpringRank
 
@@ -13,17 +12,17 @@ method = length(ARGS) >= 4 ? Symbol(ARGS[4]) : :auto
 krylov = length(ARGS) >= 5 ? Symbol(ARGS[5]) : :gmres
 
 X = readdlm(fin)
-I = Vector{Int}(X[:,1])
-J = Vector{Int}(X[:,2])
-V = Vector{Float64}(X[:,3])
-n = maximum(max.(I,J))
-A = sparse(I,J,V,n,n)
+I = Vector{Int}(X[:, 1])
+J = Vector{Int}(X[:, 2])
+V = Vector{Float64}(X[:, 3])
+n = maximum(max.(I, J))
+A = sparse(I, J, V, n, n)
 
-r = SpringRank.springrank(A; λ=λ, method=method, krylov=krylov)
+r = SpringRank.springrank(A; λ = λ, method = method, krylov = krylov)
 r .-= mean(r)
 
 open(fout, "w") do io
-    for i in 1:length(r)
+    for i = 1:length(r)
         println(io, r[i])
     end
 end

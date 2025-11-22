@@ -17,19 +17,19 @@ test:
 	julia -e 'using Pkg; Pkg.test()'
 
 fmt:
-	julia -e 'using JuliaFormatter; format(".")'
+	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using JuliaFormatter; format(".")'
 
 docs:
 	julia -e 'using Pkg; Pkg.instantiate(); include("docs/make.jl")'
 
 bench:
-	julia -e 'using Pkg; Pkg.activate("."); using PkgBenchmark; benchmarkpkg(".")'
+	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using PkgBenchmark; benchmarkpkg(".")'
 
 qa-aqua:
-	julia -e 'using Pkg; Pkg.activate("."); using Aqua, SpringRank; Aqua.test_all(SpringRank)'
+	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using Aqua; using Pkg; Pkg.activate("."); using SpringRank; Aqua.test_all(SpringRank)'
 
 qa-jet:
-	julia -e 'using Pkg; Pkg.activate("."); using JET; JET.test_package("SpringRank")'
+	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using JET; using Pkg; Pkg.activate("."); JET.test_package("SpringRank")'
 
 ci:
 	julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); Pkg.test()'
