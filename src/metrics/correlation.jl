@@ -22,6 +22,11 @@ function _tied_ranks(x::AbstractVector{<:Real})
     return r
 end
 
+"""
+    rank_correlation(r, rref; method=:spearman)
+
+Compute Spearman rank correlation between `r` and reference scores `rref`.
+"""
 function rank_correlation(
     r::AbstractVector,
     rref::AbstractVector;

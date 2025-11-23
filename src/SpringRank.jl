@@ -21,6 +21,13 @@ using .IOAdjacency
 using .MetricsPrediction
 using .MetricsCorrelation
 
+"""
+    springrank(A::SparseMatrixCSC; λ=1e-8, method=:auto, ...)
+
+Compute SpringRank scores for a directed network with adjacency matrix `A`.
+
+Returns a vector of node scores normalized to have zero mean.
+"""
 function springrank(
     A::SparseMatrixCSC;
     λ::Real = 1e-8,
@@ -53,7 +60,6 @@ function springrank(
         )
     end
 end
-
 
 function springrank(
     g::Graphs.AbstractGraph;
@@ -94,7 +100,11 @@ function springrank(
     )
 end
 
+"""
+    springrank_pairs(pairs; n, λ=1e-8, method=:auto, ...)
 
+Compute SpringRank scores from an edge list `pairs` (any Tables.jl-compatible table).
+"""
 function springrank_pairs(
     pairs;
     n::Integer,

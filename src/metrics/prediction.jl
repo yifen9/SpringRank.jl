@@ -15,7 +15,11 @@ function _scores_from_edges(r::AbstractVector, edges)
     return t, s
 end
 
+"""
+    predict_direction(r, edges; threshold=0.0)
 
+Evaluate edge direction prediction accuracy from SpringRank scores `r` and an edge list `edges`.
+"""
 function predict_direction(r::AbstractVector, edges; threshold::Real = 0.0)
     t, s = _scores_from_edges(r, edges)
     correct = 0
@@ -27,6 +31,11 @@ function predict_direction(r::AbstractVector, edges; threshold::Real = 0.0)
     return (acc = acc, y_true = t, y_score = s)
 end
 
+"""
+    auc_from_scores(y_true, y_score)
+
+Compute AUC given binary labels `y_true` and real-valued scores `y_score`.
+"""
 function auc_from_scores(y_true::AbstractVector{<:Real}, y_score::AbstractVector{<:Real})
     n = length(y_true)
     p = count(>(0.0), y_true)
@@ -59,19 +68,27 @@ function auc_from_scores(y_true::AbstractVector{<:Real}, y_score::AbstractVector
     return u / (p*nneg)
 end
 
+"""
+    evaluate_prediction(r, edges)
 
+Return accuracy and AUC for direction prediction given scores `r` and edges `edges`.
+"""
 function evaluate_prediction(r, edges_test)
     res = predict_direction(r, edges_test)
     auc = auc_from_scores(res.y_true, res.y_score)
     return (acc = res.acc, auc = auc)
 end
 
+"""
+    predict_proba(r, edges; β=1.0)
+
+Compute edge probabilities from SpringRank scores `r` using a logistic model with inverse temperature `β`.
+"""
 function predict_proba(r::AbstractVector, edges; β::Real = 1.0)
     t, s = _scores_from_edges(r, edges)
     p = 1.0 ./ (1.0 .+ exp.(-β .* s))
     return (proba = p, y_true = t, y_score = s)
 end
-
 
 export predict_direction, evaluate_prediction, auc_from_scores, predict_proba
 
