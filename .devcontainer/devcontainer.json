@@ -1,6 +1,6 @@
 {
-  "dockerComposeFile": "compose.yaml",
-  "service": "SpringRank.jl",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "springrank-jl-dev",
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
   "customizations": {

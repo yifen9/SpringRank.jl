@@ -1,7 +1,7 @@
 services:
-  SpringRank.jl:
-    image: ghcr.io/yifen9/springrank.jl
-    container_name: SpringRank.jl
+  springrank-jl-dev:
+    image: ghcr.io/yifen9/springrank-jl-dev
+    container_name: springrank-jl-dev
     working_dir: /workspace
     environment:
       - JULIA_DEPOT_PATH=/opt/julia-depot
