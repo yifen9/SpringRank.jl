@@ -1,8 +1,8 @@
+authors = ["Li Yifeng <mail@yifen9.li>"]
+license = "MIT"
 name = "SpringRank"
 uuid = "be6e8a61-07d1-4c53-9ea3-a8f885d7be3a"
 version = "0.1.0"
-authors = ["Li Yifeng <mail@yifen9.li>"]
-license = "MIT"
 
 [compat]
 julia = "1.12"
