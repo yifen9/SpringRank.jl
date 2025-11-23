@@ -1,11 +1,9 @@
 module DirectSolve
 
-using LinearSolve, SparseArrays
+using SparseArrays, LinearAlgebra
 
 function springrank_direct(L::SparseArrays.SparseMatrixCSC, b::AbstractVector)
-    prob = LinearProblem(L, b)
-    sol = solve(prob)
-    x = sol.u
+    x = L \ b
     μ = sum(x) / length(x)
     return x .- μ
 end

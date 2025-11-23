@@ -1,16 +1,14 @@
 module SpringRank
 
-using LinearSolve
 using IterativeSolvers
 using Graphs
-using CSV, DataFrames, Tables
+using Tables
 using SparseArrays
 
 include("core/model.jl")
 include("core/assemble.jl")
 include("solvers/direct.jl")
 include("solvers/krylov.jl")
-include("io/edgelist.jl")
 include("io/adjacency.jl")
 include("metrics/prediction.jl")
 include("metrics/correlation.jl")
@@ -19,7 +17,6 @@ using .CoreModel
 using .CoreAssemble
 using .DirectSolve
 using .KrylovSolve
-using .IOEdgeList
 using .IOAdjacency
 using .MetricsPrediction
 using .MetricsCorrelation

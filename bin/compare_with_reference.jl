@@ -1,4 +1,5 @@
-using DelimitedFiles, Statistics, StatsBase
+using DelimitedFiles, Statistics
+using SpringRank: rank_correlation
 
 if length(ARGS) < 2
     error("usage: compare_with_reference.jl <julia_out.txt> <reference.dat>")
@@ -29,7 +30,7 @@ for i = 1:n
 end
 rref .-= mean(rref)
 
-ρ = corspearman(rj, rref)
+ρ = rank_correlation(rj, rref)
 mse = mean((rj .- rref) .^ 2)
 println("spearman=", ρ)
 println("mse=", mse)
