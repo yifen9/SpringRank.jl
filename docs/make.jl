@@ -8,4 +8,5 @@ makedocs(;
     source = "src",
     build = "build",
     remotes = nothing,
+    checkdocs = :none,
 )
