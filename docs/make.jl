@@ -1,9 +1,12 @@
-import Documenter
-push!(LOAD_PATH, "../src")
+using Documenter
 using SpringRank
-Documenter.makedocs(
+
+makedocs(;
     modules = [SpringRank],
-    sitename = "SpringRank.jl",
     format = Documenter.HTML(),
-    checkdocs = :none,
+    sitename = "SpringRank.jl",
+    source = "src",
+    build = "build",
 )
+
+deploydocs(; repo = "github.com/yourname/SpringRank.jl.git")

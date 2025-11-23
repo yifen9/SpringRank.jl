@@ -1,14 +1,44 @@
-up:
-	julia -e 'using Pkg; Pkg.update()'
-
 add NAME:
 	julia -e 'using Pkg; Pkg.add("{{NAME}}")'
 
 rm NAME:
 	julia -e 'using Pkg; Pkg.rm("{{NAME}}")'
 
-init:
-	julia -e 'using Pkg; Pkg.instantiate()'
+up-main:
+	julia --project=. -e 'using Pkg; Pkg.update()'
+
+up-dev:
+	julia --project=dev -e 'using Pkg; Pkg.update()'
+
+up-docs:
+	julia --project=docs -e 'using Pkg; Pkg.update()'
+
+up-benchmark:
+	julia --project=benchmark -e 'using Pkg; Pkg.update()'
+
+up:
+	just up-main
+	just up-dev
+	just up-docs
+	just up-benchmark
+
+inst-main:
+	julia --project=. -e 'using Pkg; Pkg.instantiate()'
+
+inst-dev:
+	julia --project=dev -e 'using Pkg; Pkg.instantiate()'
+
+inst-docs:
+	julia --project=docs -e 'using Pkg; Pkg.instantiate()'
+
+inst-benchmark:
+	julia --project=benchmark -e 'using Pkg; Pkg.instantiate()'
+
+inst:
+	just inst-main
+	just inst-dev
+	just inst-docs
+	just inst-benchmark
 
 resolve:
 	julia -e 'using Pkg; Pkg.resolve()'
@@ -20,10 +50,10 @@ fmt:
 	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using JuliaFormatter; format(".")'
 
 docs:
-	julia -e 'using Pkg; Pkg.instantiate(); include("docs/make.jl")'
+	julia --project=docs -e 'using Pkg; Pkg.instantiate(); include("docs/make.jl")'
 
 bench:
-	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using PkgBenchmark; benchmarkpkg(".")'
+	julia --project=benchmark -e 'using Pkg; Pkg.instantiate(); using PkgBenchmark; PkgBenchmark.benchmarkpkg(".")'
 
 qa-aqua:
 	julia --project=dev -e 'using Pkg; Pkg.instantiate(); using Aqua; using Pkg; Pkg.activate("."); using SpringRank; Aqua.test_all(SpringRank)'
