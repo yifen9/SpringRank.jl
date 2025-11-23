@@ -3,9 +3,9 @@ using BenchmarkTools
 using SpringRank
 using SparseArrays, Random
 
-suite = BenchmarkGroup()
+SUITE = BenchmarkGroup()
 
-suite["random-sparse-small"] = @benchmarkable SpringRank.springrank(A; λ = 1e-8) setup=(
+SUITE["random-sparse-small"] = @benchmarkable SpringRank.springrank(A; λ = 1e-8) setup=(
     begin
         Random.seed!(1234)
         n = 200
@@ -16,7 +16,7 @@ suite["random-sparse-small"] = @benchmarkable SpringRank.springrank(A; λ = 1e-8
     end
 )
 
-suite["random-sparse-large-krylov"] = @benchmarkable SpringRank.springrank(
+SUITE["random-sparse-large-krylov"] = @benchmarkable SpringRank.springrank(
     A;
     λ = 1e-8,
     method = :krylov,
@@ -32,5 +32,3 @@ suite["random-sparse-large-krylov"] = @benchmarkable SpringRank.springrank(
         A = sparse(I, J, V, n, n)
     end
 )
-
-suite
