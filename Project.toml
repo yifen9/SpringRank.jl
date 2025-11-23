@@ -5,13 +5,13 @@ authors = ["Li Yifeng <mail@yifen9.li>"]
 license = "MIT"
 
 [compat]
-julia = "1"
-Graphs = "1"
+julia = "1.12"
+Graphs = "1.13"
 IterativeSolvers = "0.9"
-LinearAlgebra = "1"
-SparseArrays = "1"
-Statistics = "1"
-Tables = "1"
+LinearAlgebra = "1.12"
+SparseArrays = "1.12"
+Statistics = "1.11"
+Tables = "1.12"
 
 [deps]
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
