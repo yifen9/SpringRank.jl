@@ -7,6 +7,5 @@ makedocs(;
     sitename = "SpringRank.jl",
     source = "src",
     build = "build",
+    remotes = nothing,
 )
-
-deploydocs(; repo = "github.com/yourname/SpringRank.jl.git")

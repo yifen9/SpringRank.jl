@@ -1,4 +1,5 @@
 using PkgBenchmark
+using BenchmarkTools
 using SpringRank
 using SparseArrays, Random
 

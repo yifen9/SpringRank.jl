@@ -1,0 +1,46 @@
+name: Docs
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: julia-actions/setup-julia@master
+      - uses: julia-actions/cache@main
+        with:
+          cache-registries: true
+
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y just
+
+      - run: |
+          just docs
+
+      - uses: actions/upload-pages-artifact@main
+        with:
+          path: docs/build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@main
